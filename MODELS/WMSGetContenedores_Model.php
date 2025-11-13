@@ -28,12 +28,13 @@ class WMSGetContenedores_Model extends Model
     //  GUARDA Y PROCESA LA LECTURA DE LAS LINEAS DEL CONTENEDOR
     //------------------------------------------------------------
   
-     public function spGuardaCont($pSistema=null, $pUsuario=null, $pOpcion=null, $pModulo=null, $pConsecutivo=null, $jsonDetalles=null, $pEstado=null, $pBodega=null,$pUsuarioAutorizacion=null)
+     public function spGuardaCont($pSistema=null, $pUsuario=null, $pOpcion=null, $pModulo=null, $pConsecutivo=null, $jsonDetalles=null, $pEstado=null, $pBodegaEnvia=null,
+      $pBodegaDestino=null,$pUsuarioAutorizacion=null)
     {
       try {
           $db = db_connect();       
-          $params = array($pSistema, $pUsuario, $pOpcion, $pModulo, $pConsecutivo, $jsonDetalles, $pEstado, $pBodega, $pUsuarioAutorizacion);          
-          $sql = "CLSA.WMS_sp_InsertUpdate_ControlEntrega_Contenedor_v2 ?,?,?,?,?,?,?,?,?";
+          $params = array($pSistema, $pUsuario, $pOpcion, $pModulo, $pConsecutivo, $jsonDetalles, $pEstado, $pBodegaEnvia,$pBodegaDestino, $pUsuarioAutorizacion);          
+          $sql = "CLSA.WMS_sp_InsertUpdate_ControlEntrega_Contenedor ?,?,?,?,?,?,?,?,?,?";
           $query = $db->query($sql,$params)->getResult();
           return $query;
           $query->free_result();

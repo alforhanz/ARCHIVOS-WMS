@@ -11,8 +11,11 @@ class WMSVerificadorDeContenedores extends BaseController
 	
     public function verificaContenedor()
         {
-            try {
+
                     $model = new WMSVerificadorDeContenedores_Model();
+
+            try {
+                    // $model = new WMSVerificadorDeContenedores_Model();
                     //Definir los parametros
                            
                     $pSistema = !empty($_GET['pSistema']) ? $_GET["pSistema"] : null;             
@@ -22,10 +25,11 @@ class WMSVerificadorDeContenedores extends BaseController
                     $pBodegaDestino = !empty($_GET['pBodegaDestino']) ? $_GET["pBodegaDestino"] : null;  
                     $pContenedor = !empty($_GET['pContenedor']) ? $_GET["pContenedor"] : null;  
                     $pEstado = !empty($_GET['pEstado']) ? $_GET["pEstado"] : null;  
-                    $pFechaDesde = !empty($_GET['pFechaDesde']) ? $_GET["pFechaDesde"] : null;    
+                    $pFechaDesde = !empty($_GET['pFechaDesde']) ? $_GET["pFechaDesde"] : null;           
+                    $pArticulo = !empty($_GET['pArticulo']) ? $_GET["pArticulo"] : null;      
 
                     // Llama al procedimiento almacenado con los parámetros adecuados
-                    $ordenCompra = $model->sp_getLineasTrasladosMuelle($pSistema, $pUsuario, $pOpcion, $pBodegaEnvia,$pBodegaDestino, $pContenedor, $pEstado, $pFechaDesde);
+                    $ordenCompra = $model->sp_getLineasTrasladosMuelle($pSistema, $pUsuario, $pOpcion, $pBodegaEnvia,$pBodegaDestino, $pContenedor, $pEstado, $pFechaDesde,$pArticulo);
 
                     return $this->getResponse([
                         'msg' => 'SUCCESS',
@@ -41,7 +45,7 @@ class WMSVerificadorDeContenedores extends BaseController
        public function guardaCreaPaquete()
                 {
                     try {
-                            $model = new WMSVerificadorDeContenedores_Model();
+                             $model = new WMSVerificadorDeContenedores_Model();
                             //Definir los parametros
                                    
                             $pSistema = !empty($_GET['pSistema']) ? $_GET["pSistema"] : null;             
@@ -91,6 +95,35 @@ public function impPaqueteReporte()
                                     return $this->getResponse(['message' => 'No se pudo completar la consulta: ' . $e->getMessage()], ResponseInterface::HTTP_INTERNAL_SERVER_ERROR);
                                 }
                 }
+
+
+  public function devuelveArticuloConstenedor()
+                {
+                    try {
+                           $model = new WMSVerificadorDeContenedores_Model();
+                            //Definir los parametros
+                                   
+                            $pSistema = !empty($_GET['pSistema']) ? $_GET["pSistema"] : null;             
+                            $pUsuario = !empty($_GET['pUsuario']) ? $_GET["pUsuario"] : null; 
+                            $pOpcion = !empty($_GET['pOpcion']) ? $_GET["pOpcion"] : null;  
+                            $BodegaSolic = !empty($_GET['BodegaSolic']) ? $_GET["BodegaSolic"] : null;  
+                            $BodegaEnvia = !empty($_GET['BodegaEnvia']) ? $_GET["BodegaEnvia"] : null;  
+                            $pAutorizado = !empty($_GET['pAutorizado']) ? $_GET["pAutorizado"] : null;  
+                            $jsonDetalles = !empty($_GET['jsonDetalles']) ? $_GET["jsonDetalles"] : null;  
+                            
+
+                            // Llama al procedimiento almacenado con los parámetros adecuados
+                            $ordenCompra = $model->devolucionDeArticuloContenedor($pSistema,$pUsuario,$pOpcion,$BodegaSolic,$BodegaEnvia,$pAutorizado,$jsonDetalles);
+
+                            return $this->getResponse([
+                                'msg' => 'SUCCESS',
+                                'message' => 'Reporte recuperada con éxito',
+                                'respuesta' => $ordenCompra
+                            ]);
+                        } catch (Exception $e) {
+                                    return $this->getResponse(['message' => 'No se pudo completar la consulta: ' . $e->getMessage()], ResponseInterface::HTTP_INTERNAL_SERVER_ERROR);
+                                }
+                }              
 
 
 }
